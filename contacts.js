@@ -17,8 +17,8 @@ const listContacts = async () => {
   
 const getContactById = async (contactId) => {
     const contacts = await readContent()
-    const [contact] = contacts.filter(contact => contact.id === contactId)
-    return contact
+    const contact = contacts.find(e => e.id === contactId)
+    return  contact
   }
   
 const removeContact = async (contactId) => {
@@ -34,6 +34,10 @@ const removeContact = async (contactId) => {
   const addContact = async (name, email, phone) => {
     const contacts = await readContent()
     const newContact = { name, email, phone, id: crypto.randomUUID() }
+    
+    if(contacts.some(e => e.name === newContact.name || e.email === newContact.email || e.phone === newContact.phone)) {
+      return
+    } 
     contacts.push(newContact)
     await fs.writeFile(contactPath, JSON.stringify(contacts, null, 2),
     )

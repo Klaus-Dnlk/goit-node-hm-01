@@ -37,7 +37,9 @@ const removeContact = async (contactId) => {
     
     if(contacts.some(e => e.name === newContact.name || e.email === newContact.email || e.phone === newContact.phone)) {
       return
-    } 
+    } else if (contacts.some(e => e.name === void 0 || e.email === void 0 || e.phone === void 0)){
+      return
+    }
     contacts.push(newContact)
     await fs.writeFile(contactPath, JSON.stringify(contacts, null, 2),
     )
